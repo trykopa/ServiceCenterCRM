@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/head :: headerfiles ('SC Files page')">
+</head>
+<body>
+
+<div class="container">
+    <div th:replace="/fragments/navbar :: navbar"></div>
+
+        <form th:action="@{/files/upload}" method="post" enctype="multipart/form-data">
+            <div class="mt-2">
+                <label>Select bucket to upload file</label>
+            </div>
+
+            <div>
+                <select id="bucketName" name="bucketName">
+                    <option th:each="bucket : ${buckets}" th:value="${bucket.name}" th:text="${bucket.name}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="mt-2">
+                <label>Select File to upload </label>
+            </div>
+            <div>
+                <input type="file" name="file" class="form-control-file">
+            </div>
+            <div>
+                <input type="submit" value="Upload">
+            </div>
+        </form>
+
+        <hr>
+        <form object="bucketName" th:action="@{/files/filehome}" method="post">
+            <label for="selectbucket" class="mt-2">Select bucket to view content</label>
+            <select name = "bucketName" onchange="this.form.submit()"
+                    class="form-control form-control-sm" id="selectbucket">
+                <option value="" selected>----SELECT BUCKET----</option>
+                <option th:each="bucketNo: ${buckets}"
+                        th:value="*{bucketNo.name}" th:text="*{bucketNo.name}"></option>
+            </select>
+        </form>
+
+        <hr>
+        <div th:if="s3FileNames">
+            <table>
+                <thead>
+                <tr>
+                    <th th:text="${bucketName} + '-files listed:'"></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s3file : ${s3FileNames}">
+                    <td th:text="${s3file}"/>
+                    <td><a th:href="@{'/files/download/'+ ${bucketName} + '/' + ${s3file}}"> Download </a></td>
+                    <td><a th:href="@{'/files/delete/'+ ${bucketName} + '/' + ${s3file}}"> Delete </a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    <div th:replace="/fragments/footer :: footer"></div>
+</div>
+
+</body>
+</html>

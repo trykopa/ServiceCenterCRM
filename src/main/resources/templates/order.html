@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/head :: headerfiles ('SC Create order')">
+</head>
+<body>
+
+<div class="container-sm">
+    <div th:replace="/fragments/navbar :: navbar"></div>
+    <form class="mt-2" th:object="${order}" th:action="@{${editorder==true ? '/orders/edit' : '/orders/new'}}"
+          method="post">
+        <input type="hidden" th:field="*{id}" value="*{id}">
+
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                        <div th:if="*{id}!=0">
+                            <h4 th:text="'Order No '  + ${id}"></h4>
+                            <small th:text="'Created date '  + ${created.toLocaleString()}"></small>
+                        </div>
+                        <div th:unless="${order.id}!=0">
+                            <input class="form-control" type="text" placeholder="OrderNo here…" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                        <span>Order status:</span>
+                        <select th:if="${statuses}" th:field="*{status}" class="d-print-none">
+                        <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st.name()}"/></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                    <input th:type="text" th:field="*{clientSurname}" class="form-control form-control-sm"
+                           placeholder="Client surname" th:disabled="${editorder}">
+                    <span th:if="${#fields.hasErrors()}" th:errors="*{clientSurname}"
+                          class="badge badge-danger" >Surname Error</span>
+                    <input th:type="hidden" th:field="*{clientSurname}" th:disabled="${editorder}==false">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                    <input th:type="text" th:field="*{clientName}" class="form-control form-control-sm"
+                           placeholder="Client name" th:disabled="${editorder}">
+                    <span th:if="${#fields.hasErrors()}" th:errors="*{clientName}"
+                          class="badge badge-danger" >Name Error</span>
+                    <input th:type="hidden" th:field="*{clientName}" th:disabled="${editorder}==false">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                    <input th:type="text" th:field="*{clientMobile}" class="form-control form-control-sm"
+                           placeholder="Client mobile" th:disabled="${editorder}">
+                    <span th:if="${#fields.hasErrors()}" th:errors="*{clientMobile}"
+                          class="badge badge-danger" >Mobile Error</span>
+                    <input th:type="hidden" th:field="*{clientMobile}" th:disabled="${editorder}==false">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                    <input th:type="text" th:field="*{clientEmail}" class="form-control form-control-sm"
+                           placeholder="Client Email" th:disabled="${editorder}">
+                        <span th:if="*{id}==0" class="badge badge-info">EMail used to send notifications</span>
+                    <span th:if="${#fields.hasErrors()}" th:errors="*{clientEmail}"
+                          class="badge badge-danger" >Email Error</span>
+                    <input th:type="hidden" th:field="*{clientEmail}" th:disabled="${editorder}==false">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                        <input th:type="text" th:field="*{serialNo}"  class="form-control form-control-sm"
+                           placeholder="Serial No">
+                        <span th:if="${#fields.hasErrors()}" th:errors="*{serialNo}"
+                          class="badge badge-danger" >SerialNo Error</span>
+                    </div>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                        <input th:type="text" th:field="*{modelName}"  class="form-control form-control-sm"
+                               placeholder="Model name">
+                        <span th:if="${#fields.hasErrors()}" th:errors="*{modelName}"
+                              class="badge badge-danger" >modelName Error</span>
+                    </div>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="shadow p-1 mb-1 bg-white rounded">
+                    <textarea th:field="*{defectDescription}" class="form-control" id="defect" rows="3"
+                              placeholder="Defect description"></textarea>
+
+                    <span th:if="${#fields.hasErrors()}" th:errors="*{defectDescription}"
+                          class="badge badge-danger" >defectDescription Error</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-4 align-self-start">
+            <div class="col">
+                <div class=" p-1 mb-1 bg-white ">
+                <div class="btn-group btn-group-sm" role="group" aria-label="buttongroup1">
+                <input class="btn btn-primary btn-sm d-print-none" type="submit" name="save" value="Save order">
+                <button th:if="*{id}!=0" type="button" class="btn btn-outline-primary btn-sm d-print-none"
+                        onclick="myPrintFunction()"><span aria-hidden="true">Print order</span></button>
+                </div>
+                <a th:if="*{id}!=0" th:href="@{/table/edit/{id} (id=${order.getId()})}"
+                   class="btn btn-success btn-sm d-print-none">Repair Table</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class=" p-1 mb-1 bg-white ">
+                <div class="btn-group btn-group-sm" role="group" aria-label="buttongroup2">
+
+                <button th:if="${editorder}==true" type="button" class="btn btn-primary btn-sm d-print-none"
+                        data-toggle="modal" data-target="#attachfilesmodal">
+                    Attach files
+                </button>
+
+                <button th:if="${editorder}==true" type="button" class="btn btn-primary btn-sm d-print-none"
+                        data-toggle="modal" data-target="#addnotemodal">
+                    Add note
+                </button>
+                </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class=" p-1 mb-1 bg-white ">
+                    <div th:if="${repaircost}" class="alert alert-success" role="alert">
+                        <span th:text="'The repair cost is: ' +
+                        ${#numbers.formatDecimal(repaircost, 0, 'COMMA', 2, 'POINT')}">10.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div th:if="${repairlist}">
+                    <div class=" p-1 mb-1 bg-white ">
+                        <div class="alert alert-danger" role="alert">
+                            Repeated repairs found!
+                        </div>
+                        <div class="list-group">
+                            <a th:each="rep : ${repairlist}" th:href="@{'/orders/edit/' + ${rep}}"
+                               th:text="'Repair No: ' + ${rep}" class="list-group-item list-group-item-action"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+
+    </form>
+
+
+    <p class="d-print-none p-1 mb-1">
+        <button th:if="${s3FileNames != null}" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseImages"
+                aria-expanded="false" aria-controls="collapseImages">
+            Show attached images
+        </button>
+    </p>
+    <div class="collapse d-print-none " id="collapseImages">
+        <div class="card card-body">
+            <span th:text="'Images in ' + ${@environment.getProperty('bucketname')} +${order.id} + ' - listed:'">...</span>
+            <div th:if="${s3FileNames != null}">
+            <div th:if="${s3FileNames.size() != 0}" class="row">
+                <div th:each="s3file : ${s3FileNames}" class="card ml-3" style="width: 8rem;">
+                    <img class="card-img-top"
+                         th:src="@{'https://s3.eu-central-1.amazonaws.com/' + ${@environment.getProperty('bucketname')} + ${id} + '/' + ${s3file}}" alt="Attached img">
+                    <div class="card-body">
+                        <a th:href="@{'/files/download/'+ ${@environment.getProperty('bucketname')} +  ${id} + '/' + ${s3file}}"> Download </a>
+                        <a th:href="@{'/files/delete/' + ${@environment.getProperty('bucketname')} + ${id} + '/' + ${s3file}}"> Delete </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${notes}" id="accordion" class="d-print-none">
+        <th:block th:each="note,iterStat: ${notes}">
+            <div class="card" >
+                <div class="card-header" th:id="'heading'+ ${iterStat.count}">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" th:data-target="'#collapse' +
+                        ${iterStat.count}" aria-expanded="true" th:aria-controls="'collapse' + ${iterStat.count}">
+                        <div th:text="'Note created: ' + ${note.createdAt.toLocaleString()}"> Created date</div>
+                    </button>
+                </div>
+                <div th:id="'collapse' + ${iterStat.count}" class="collapse" th:aria-labelledby="'heading'
+                + ${iterStat.count}" data-parent="#accordion">
+                    <div class="card-body">
+                        <p th:text="${note.message}">Message</p>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <!-- Attach picture Modal -->
+    <div class="modal fade" id="attachfilesmodal" tabindex="-1" role="dialog" aria-labelledby="attachfilesmodalLabel"
+         aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="attachfilesmodalLabel">Attach files</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Select files to attach
+                    <form th:action="@{/files/attach}" method="post" enctype="multipart/form-data">
+                        <div>
+                            <input type="file" name="file" class="form-control-file btn-sm">
+                        </div>
+                        <div>
+                            <input type="hidden" th:name="bucketName"
+                                   th:value="${@environment.getProperty('bucketname')} + ${order.id}">
+                            <input type="hidden" th:name="id" th:value="${order.id}">
+                            <button name="upload" type="submit" th:onclick="@{/files/attach}"
+                                    class="btn btn-outline-primary btn-sm">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add note Modal -->
+    <div class="modal fade" id="addnotemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addnotemodalLabel">Add note</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:object="${note}" th:action="@{/notes/addnote}" method="post">
+                        <div class="form-group">
+                            <input type="hidden" th:name="id" th:value="${order.id}">
+                            <label for="note-text" class="col-form-label">Note:</label>
+                            <textarea th:name="note-text" class="form-control" id="note-text"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button name="upload" type="submit" th:onclick="@{/notes/addnote}"
+                                class="btn btn-outline-secondary">Add note</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="d-none d-print-block justify-content-center">
+        <p class="small text-justify">
+            Гарантийные обязательства не распространяются на следующие неисправности:
+
+        </p>
+    </div>
+    <div th:replace="/fragments/footer :: footer"></div>
+
+<!--    script to fix Bootstrap fileInput problem not show filename on button-->
+    <script type="text/javascript">
+        $(document).on('change', '.custom-file-input', function (event) {
+            $(this).next('.custom-file-label').html(event.target.files[0].name);
+        })
+    </script>
+</div>
+</body>
+</html>

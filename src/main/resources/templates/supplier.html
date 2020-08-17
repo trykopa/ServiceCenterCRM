@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/head :: headerfiles ('SC Edit supplier page')">
+</head>
+<body>
+<div class="container">
+    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div class="alert alert-info p-1 mt-2" th:if="${error}">
+        <h5 th:text="${error}"></h5>
+    </div>
+    <form class="mt-2" th:object="${supplier}" th:action="@{${editsupplier==true ? '/suppliers/edit' : '/suppliers/new'}}"
+          method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="form-group-sm mt-2">
+            <input th:type="text" th:field="*{name}"  class="form-control form-control-sm"
+                   placeholder="Supplier name" required>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{name}"
+                  class="badge badge-danger" >Name Error</span>
+        </div>
+        <div class="form-group-sm mt-2">
+            <input th:type="text" th:field="*{surname}"  class="form-control form-control-sm"
+                   placeholder="Supplier surname" required>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{surname}"
+                  class="badge badge-danger" >Surame Error</span>
+        </div>
+        <div class="form-group-sm mt-2">
+            <input th:type="text" th:field="*{companyName}"  class="form-control form-control-sm"
+                   placeholder="Company" required>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{companyName}"
+                  class="badge badge-danger" >Company Error</span>
+        </div>
+
+        <div class="form-group-sm mt-2">
+            <input th:type="tel" th:field="*{mobile}"  class="form-control form-control-sm"
+                   placeholder="Supplier mobile phone - 0991234567" required>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{mobile}"
+                  class="badge badge-danger" >Mobile Error</span>
+        </div>
+
+        <div class="form-group-sm mt-2">
+            <input th:type="email" th:field="*{email}" class="form-control form-control-sm" id="Email1"
+                   aria-describedby="emailHelp" placeholder="Supplier email" required>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{mobile}"
+                  class="badge badge-danger" >Email Error</span>
+            <small th:unless="${#fields.hasErrors()}" id="emailHelp"
+                   class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+
+        <div class="mt-2">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </div>
+    </form>
+
+    <div th:replace="/fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

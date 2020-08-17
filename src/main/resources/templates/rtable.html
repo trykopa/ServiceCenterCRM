@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/head :: headerfiles ('SC Repair table')">
+</head>
+<body>
+<div class="container">
+    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div class="alert alert-info p-1 mt-2" th:if="${message}">
+        <h5 th:text="${message}"></h5>
+    </div>
+
+    <form class="mt-2"  th:object="${table}" method="post" th:action="@{/table/edit}">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 th:text="'Repair table for Order No '  + *{orderId}"></h4>
+                <input type="hidden" th:field="*{orderId}" value="*{orderId}">
+
+                <div th:if="*{tableCreateDate}">
+                    <input type="hidden" th:field="*{id}" value="*{id}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div th:if="*{tableCreateDate}">
+                    <span th:text="'Table created at  ' + *{#dates.format(tableCreateDate, 'dd-MM-yyyy')}"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-check alert alert-danger">
+                    <input th:field="*{tableClosed}" class="form-check-input  ml-1" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label ml-4" for="defaultCheck1">
+                        Close table(permanent!)
+                    </label>
+                </div>
+                <div th:if="*{tableCloseDate!=null}">
+                    <span th:text="'Table closed at  ' + *{#dates.format(tableCloseDate, 'dd-MM-yyyy')}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label for="discount">Discount %</label>
+                <input th:type="number" th:field="*{discount}" min="0.00" max="99.99" step="0.01"
+                       id = "discount" class="form-control form-control-sm"  />
+            </div>
+        </div>
+        <h4>Add work or part:</h4>
+        <div class="row mt-3" >
+            <div class="col-md-4">
+                <select th:field="*{partOrWork}"  id="work" class="form-control select2-single" >
+                    <option value=" ">Search work by name</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" id="workbutton" class="btn btn-success btn-sm"
+                        name="partworkbutton" value="work">Add work</button>
+            </div>
+        </div>
+
+        <div class="row mt-3" >
+            <div class="col-md-4">
+                <select th:field="*{partOrWork}" id="serial" class="form-control select2-single" >
+                    <option value=" ">Search part by SerialNo</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" id="serialbutton" class="btn btn-success btn-sm"
+                        name="partworkbutton" value="part">Add part</button>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row mt-3">
+            <div class="col-md-8">
+                <div th:if="${parts}!=null">
+                    <table class="table table-hover table-sm ">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th> PartNo </th>
+                            <th> Description </th>
+                            <th> Price </th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <th id="total" colspan="2">Total :</th>
+                        <th><span th:text="${repaircost} + ' UAH' "> PartNo </span></th>
+                        </tfoot>
+                        </tfoot>
+                        <tbody>
+                        <tr th:if="*{partDTOList.empty}">
+                            <td colspan="3"> No Parts added </td>
+                        </tr>
+                        <tr th:each="part : *{partDTOList}">
+                            <td><span th:text="${part.partNo}"> PartNo </span></td>
+                            <td><span th:text="${part.partDesc}"> PartDesc </span></td>
+                            <td><span th:text="${part.recommendedPrice}"> Price </span></td>
+                            <td><a th:href="@{/table/delete/{orderId}/{partNo} (orderId=${table.getOrderId()},
+                                partNo=${part.id})}"
+                                   class="btn btn-sm btn-outline-dark">Remove</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row mt-3" >
+            <div class="col-md-4 text-left">
+                <a th:href="@{/orders/edit/{orderId} (orderId=${table.getOrderId()})}"
+                   class="btn btn-primary" th:text="'&larr; Back to order ' + ${table.getOrderId()}"></a>
+            </div>
+
+            <div class="col-md-4">
+            </div>
+
+            <div class="col-md-4 text-right">
+
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div th:replace="/fragments/footer :: footer"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#work').select2({
+            ajax: {
+                theme: "bootstrap4",
+                url: '/getparts',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            },
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#serial').select2({
+            ajax: {
+                theme: "bootstrap4",
+                url: '/getserial',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (response) {
+                    return {
+                        results: response
+                    };
+                },
+            },
+        });
+    });
+</script>
+<script>
+    $("#serial").prop('enabled', 'enabled');
+    $("#work").on('change', function() {
+        var that = $("#work option:selected").val();
+        if (that !== "empty") {
+            $("#serial").prop('disabled', true);
+            $("#serialbutton").prop('disabled', true);
+        } else {
+            $("#serial").prop('disabled', 'disabled');
+            $("#serialbutton").prop('disabled', 'disabled');
+        }
+
+    });
+    $("#serial").on('change', function() {
+        var that = $("#serial option:selected").val();
+        if (that !== "empty") {
+            $("#work").prop('disabled', true);
+            $("#workbutton").prop('disabled', true);
+        } else {
+            $("#work").prop('disabled', 'disabled');
+            $("#workbutton").prop('disabled', 'disabled');
+        }
+
+
+    });
+</script>
+</body>
+</html>
