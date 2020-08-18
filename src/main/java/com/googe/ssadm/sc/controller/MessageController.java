@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/messages")
+@RequestMapping("messages")
 public class MessageController {
     private final MessageService messageService;
     private final MessageMapper messageMapper;
@@ -52,7 +52,7 @@ public class MessageController {
     private int startPage;
 
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     public String allMessages(HttpServletRequest request , Model model) {
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             startPage = Integer.parseInt(request.getParameter("page")) - 1;
@@ -73,7 +73,7 @@ public class MessageController {
         Page<Message> messagePage = messageService.findMessageToUser(PageRequest.of(
                 startPage , pageSize , Sort.by("id").descending()) , user.getId());
         model.addAttribute("messagePage" , messagePage);
-        return "/messages";
+        return "messages";
     }
 
     @GetMapping(path = "/sent")
@@ -86,7 +86,7 @@ public class MessageController {
         Page<Message> messagePage = messageService.findMessageFromUser(PageRequest.of(
                 startPage , pageSize , Sort.by("id").descending()) , user.getId());
         model.addAttribute("messagePage" , messagePage);
-        return "/messages";
+        return "messages";
     }
 
     @GetMapping(path = "/new")
