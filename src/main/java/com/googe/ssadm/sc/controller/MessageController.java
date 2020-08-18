@@ -52,7 +52,7 @@ public class MessageController {
     private int startPage;
 
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/")
     public String allMessages(HttpServletRequest request , Model model) {
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             startPage = Integer.parseInt(request.getParameter("page")) - 1;
