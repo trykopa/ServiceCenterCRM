@@ -141,9 +141,13 @@ public class PartController {
     public String clonePart(@PathVariable Long id , Model model) {
         model.addAttribute("editpart" , false);
         Part part = partService.findById(id).orElse(new Part());
-        part.setId(0L);
-        part.setSerialNo(null);
-        model.addAttribute("part" , partMapper.toPartDTO(part));
+        Part newPart = new Part();
+        newPart.setPartNo(part.getPartNo());
+        newPart.setPartDesc(part.getPartDesc());
+        newPart.setEntryPrice(part.getEntryPrice());
+        newPart.setRecommendedPrice(part.getRecommendedPrice());
+        newPart.setSupplier(part.getSupplier());
+        model.addAttribute("part" , partMapper.toPartDTO(newPart));
         model.addAttribute("suppliers" , supplierMapper.toSupplierDTOs(supplierService.findAll()));
         return "part";
     }
