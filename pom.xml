@@ -11,7 +11,7 @@
 
     <groupId>com.googe.ssadm</groupId>
     <artifactId>sc</artifactId>
-    <version>0.8</version>
+    <version>0.9</version>
     <name>ServiceCenterCRM</name>
     <description>ServiceCenter_Beta</description>
 

@@ -92,7 +92,11 @@ public class UserController {
 
     @GetMapping("/delete/{id}")
     public String deleteUserById(@PathVariable Long id) {
-        userService.deleteById(id);
+        if (
+                (userService.findById(id).isPresent()) &
+                        (!userService.findById(id).get().getRoles().contains(Role.valueOf("ROLE_ADMIN")))) {
+            userService.deleteById(id);
+        }
         return "redirect:/users";
     }
 }
