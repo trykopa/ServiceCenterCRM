@@ -2,11 +2,11 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/head :: headerfiles ('SC add news page')">
+<head th:replace="fragments/head :: headerfiles ('SC add news page')">
 </head>
 <body>
 <div class="container">
-    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
     <form th:action="@{/news/new}" th:object="${news}" method="post">
         <input th:if="${news.id}" type="hidden" th:field="*{id}">
         <div class="form-group">
@@ -19,7 +19,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <div th:replace="/fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>

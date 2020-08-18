@@ -2,18 +2,19 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/head :: headerfiles ('SC Transactions list')">
-
+<head th:replace="fragments/head :: headerfiles ('SC Transactions list')">
 </head>
 <body>
 <div class="container">
-    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
 
     <div class=" row mt-2">
         <div class="col-2">
             <a class="btn btn-outline-dark btn-lg btn-block" th:href="@{/transactions/new}" role="button">
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
                     <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
                 </svg>
                 New</a>
@@ -79,10 +80,12 @@
                     </li>
                     <li class="page-item" th:classappend="${i eq transactionsPage.number + 1} ? 'active'"
                         th:each="i : ${#numbers.sequence( 1, transactionsPage.totalPages, 1)}">
-                        <a class="page-link" th:href="@{__${#httpServletRequest.requestURI}__?page={id}(id=${i})}" th:text="${i}"
+                        <a class="page-link" th:href="@{__${#httpServletRequest.requestURI}__?page={id}(id=${i})}"
+                           th:text="${i}"
                            th:title="${'Page '+ i}" data-toggle="tooltip"></a>
                     </li>
-                    <li class="page-item" th:classappend="${transactionsPage.number + 1 eq transactionsPage.totalPages} ? 'disabled'">
+                    <li class="page-item"
+                        th:classappend="${transactionsPage.number + 1 eq transactionsPage.totalPages} ? 'disabled'">
                         <a class="page-link"
                            th:href="@{__${#httpServletRequest.requestURI}__?page={id}(id=${transactionsPage.number + 2})}"
                            aria-label="Next" title="Next Page" data-toggle="tooltip">
@@ -92,13 +95,8 @@
                 </ul>
             </nav>
         </div>
-
-
-
     </div>
-
-
-    <div th:replace="/fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 
 </body>

@@ -2,26 +2,26 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/head :: headerfiles ('SC Orders list')">
+<head th:replace="fragments/head :: headerfiles ('SC Orders list')">
 </head>
 <body>
 <div class="container">
-    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
     <div th:if="${ordersPage != null}" class="mt-2">
         <table class="table table-hover table-sm ">
             <thead class="thead-dark">
-                <tr>
-                    <th>OrderNo</th>
-                    <th>Created date</th>
-                    <th>SerialNo</th>
-                    <th>ModelName</th>
-                    <th>ClientName</th>
-                    <th>ClientMobile</th>
-                    <th>Current status</th>
-                    <th>Edit</th>
-                </tr>
+            <tr>
+                <th>OrderNo</th>
+                <th>Created date</th>
+                <th>SerialNo</th>
+                <th>ModelName</th>
+                <th>ClientName</th>
+                <th>ClientMobile</th>
+                <th>Current status</th>
+                <th>Edit</th>
+            </tr>
             </thead>
-<!--            static method to convert repair STATUS to more informative colors scheme -- OPTIONAL -->
+            <!--            static method to convert repair STATUS to more informative colors scheme -- OPTIONAL -->
             <tr th:each="order : ${ordersPage}" th:class=
                     "${T(com.googe.ssadm.sc.utils.ConvertStatusToColor).convertStatusToColor(order.status)} + ' '">
                 <td th:text="${order.id}">Id</td>
@@ -65,9 +65,9 @@
     </div>
 
     <form th:action="@{/orders/new}" th:method="get">
-        <input  class="button button-block" type="submit" value="Add order"/>
+        <input class="button button-block" type="submit" value="Add order"/>
     </form>
-    <div th:replace="/fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>

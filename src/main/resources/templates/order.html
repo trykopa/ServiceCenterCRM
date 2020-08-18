@@ -2,12 +2,12 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/head :: headerfiles ('SC Create order')">
+<head th:replace="fragments/head :: headerfiles ('SC Create order')">
 </head>
 <body>
 
 <div class="container-sm">
-    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
     <form class="mt-2" th:object="${order}" th:action="@{${editorder==true ? '/orders/edit' : '/orders/new'}}"
           method="post">
         <input type="hidden" th:field="*{id}" value="*{id}">
@@ -282,7 +282,7 @@
 
         </p>
     </div>
-    <div th:replace="/fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 
 <!--    script to fix Bootstrap fileInput problem not show filename on button-->
     <script type="text/javascript">

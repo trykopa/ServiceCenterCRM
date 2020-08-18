@@ -2,86 +2,87 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/head :: headerfiles ('SC Part list')">
+<head th:replace="fragments/head :: headerfiles ('SC Part list')">
 </head>
 <body>
 <div class="container">
 
-        <div th:replace="/fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
 
-        <div th:if="${partpage != null}" class="mt-2">
-            <table class="table table-hover table-sm">
-                <thead class="thead-dark">
-                <tr>
-                    <th>PartNo</th>
-                    <th>Desc</th>
-                    <th>SerialNo</th>
-                    <th>StockPrice</th>
-                    <th>SalePrice</th>
-                    <th>Work/Part</th>
-                    <th>Supplier</th>
-                    <th>Edit</th>
-                </tr>
-                </thead>
-                <tr th:each="part : ${partpage}" th:class="${part.onStock} ? 'table-light' : 'table-secondary'">
-                    <td th:text="${part.partNo}">partNo</td>
-                    <td th:text="${part.partDesc}">partDesc</td>
-                    <td th:text="${part.serialNo}">SerialNo</td>
-                    <td th:text="${part.entryPrice}">entryPrice</td>
-                    <td th:text="${part.recommendedPrice}">recommendedPrice</td>
-                    <td th:text="${part.partOrWork}? 'work' : 'part'" >partOrWork</td>
-                    <div th:with="supplierid=${part.supplierId}">
-                        <div th:if="${supplierid}!=0">
-                            <div th:each="supplier : ${suppliers}">
-                                <td th:if="${supplier.id} == ${supplierid}"
-                                    th:text="${supplier.name} + ' ' + ${supplier.surname}">Supplier</td>
-                            </div>
-                        </div>
-                        <div th:unless="${supplierid}!=0">
-                            <td th:text="no"></td>
+    <div th:if="${partpage != null}" class="mt-2">
+        <table class="table table-hover table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th>PartNo</th>
+                <th>Desc</th>
+                <th>SerialNo</th>
+                <th>StockPrice</th>
+                <th>SalePrice</th>
+                <th>Work/Part</th>
+                <th>Supplier</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tr th:each="part : ${partpage}" th:class="${part.onStock} ? 'table-light' : 'table-secondary'">
+                <td th:text="${part.partNo}">partNo</td>
+                <td th:text="${part.partDesc}">partDesc</td>
+                <td th:text="${part.serialNo}">SerialNo</td>
+                <td th:text="${part.entryPrice}">entryPrice</td>
+                <td th:text="${part.recommendedPrice}">recommendedPrice</td>
+                <td th:text="${part.partOrWork}? 'work' : 'part'">partOrWork</td>
+                <div th:with="supplierid=${part.supplierId}">
+                    <div th:if="${supplierid}!=0">
+                        <div th:each="supplier : ${suppliers}">
+                            <td th:if="${supplier.id} == ${supplierid}"
+                                th:text="${supplier.name} + ' ' + ${supplier.surname}">Supplier
+                            </td>
                         </div>
                     </div>
-                    <td>
-                        <a th:href="@{/parts/edit/{id} (id=${part.id})}"
-                           class="btn btn-sm btn-outline-success">Edit</a>
-                        <a th:href="@{/parts/delete/{id} (id=${part.getId()})}"
-                           class="btn btn-sm btn-outline-danger">Delete</a>
-                        <a th:href="@{/parts/clone/{id} (id=${part.getId()})}"
-                           class="btn btn-sm btn-outline-info">Clone</a>
-                    </td>
-                </tr>
-            </table>
+                    <div th:unless="${supplierid}!=0">
+                        <td th:text="no"></td>
+                    </div>
+                </div>
+                <td>
+                    <a th:href="@{/parts/edit/{id} (id=${part.id})}"
+                       class="btn btn-sm btn-outline-success">Edit</a>
+                    <a th:href="@{/parts/delete/{id} (id=${part.getId()})}"
+                       class="btn btn-sm btn-outline-danger">Delete</a>
+                    <a th:href="@{/parts/clone/{id} (id=${part.getId()})}"
+                       class="btn btn-sm btn-outline-info">Clone</a>
+                </td>
+            </tr>
+        </table>
 
-            <!-- orders pagination -->
-            <nav aria-label="Pagination" th:if="${partpage.totalPages gt 0}">
-                <ul class="pagination justify-content-center font-weight-bold pagination-sm">
-                    <li class="page-item" th:classappend="${partpage.number eq 0} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="@{/parts?page={id}(id=${partpage.number lt 2 ? 1 : partpage.number})}"
-                           aria-label="Previous" title="Previous Page" data-toggle="tooltip">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item" th:classappend="${i eq partpage.number + 1} ? 'active'"
-                        th:each="i : ${#numbers.sequence( 1, partpage.totalPages, 1)}">
-                        <a class="page-link" th:href="@{/orders?page={id}(id=${i})}" th:text="${i}"
-                           th:title="${'Page '+ i}" data-toggle="tooltip"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${partpage.number + 1 eq partpage.totalPages} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="@{/parts?page={id}(id=${partpage.number + 2})}"
-                           aria-label="Next" title="Next Page" data-toggle="tooltip">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <!-- orders pagination -->
+        <nav aria-label="Pagination" th:if="${partpage.totalPages gt 0}">
+            <ul class="pagination justify-content-center font-weight-bold pagination-sm">
+                <li class="page-item" th:classappend="${partpage.number eq 0} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/parts?page={id}(id=${partpage.number lt 2 ? 1 : partpage.number})}"
+                       aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${i eq partpage.number + 1} ? 'active'"
+                    th:each="i : ${#numbers.sequence( 1, partpage.totalPages, 1)}">
+                    <a class="page-link" th:href="@{/orders?page={id}(id=${i})}" th:text="${i}"
+                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                </li>
+                <li class="page-item" th:classappend="${partpage.number + 1 eq partpage.totalPages} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/parts?page={id}(id=${partpage.number + 2})}"
+                       aria-label="Next" title="Next Page" data-toggle="tooltip">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
-        <form th:action="@{/parts/new}" th:method="get">
-            <input  class="button button-block" type="submit" value="Add part"/>
-        </form>
-        <div th:replace="/fragments/footer :: footer"></div>
+    <form th:action="@{/parts/new}" th:method="get">
+        <input class="button button-block" type="submit" value="Add part"/>
+    </form>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>

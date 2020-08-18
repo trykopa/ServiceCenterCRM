@@ -3,7 +3,6 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-
 <head>
     <meta charset="UTF-8">
     <title>navbar</title>
@@ -15,7 +14,8 @@
             <a class="navbar-brand" href="/">
                 <img src="/favicon.ico" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
                 ServiceCenter</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -27,29 +27,29 @@
                         <a class="nav-link" href="/orders/">Orders</a>
                     </li>
                     <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Manager menu
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <div sec:authorize="hasRole('ROLE_ADMIN')">
-                                <a class="dropdown-item" href="/users/">Users</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manager menu
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a class="dropdown-item" href="/users/">Users</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <a class="dropdown-item" href="/transactions/">Transactions</a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/suppliers/">Suppliers</a>
+                                <a class="dropdown-item" href="/parts/">Parts</a>
+                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/files/filehome/">Files</a>
+                                </div>
+                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a class="dropdown-item" href="/news/">News</a>
+                                </div>
                             </div>
-                            <a class="dropdown-item" href="/transactions/">Transactions</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/suppliers/">Suppliers</a>
-                            <a class="dropdown-item" href="/parts/">Parts</a>
-                            <div sec:authorize="hasRole('ROLE_ADMIN')">
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/files/filehome/">Files</a>
-                            </div>
-                            <div sec:authorize="hasRole('ROLE_ADMIN')">
-                                <a class="dropdown-item" href="/news/">News</a>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
                     </div>
                 </ul>
             </div>
@@ -61,12 +61,12 @@
                 </form>
 
                 <div class="btn-group">
-                        <a class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" >
-                            <span id="username" th:text="${#request.userPrincipal.name}">Inbox</span>
-                            <span id="numofmes" th:text="${@messageService.findUnread(#request.userPrincipal.name)}"
-                                  class="badge badge-light"></span>
-                        </a>
+                    <a class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                        <span id="username" th:text="${#request.userPrincipal.name}">Inbox</span>
+                        <span id="numofmes" th:text="${@messageService.findUnread(#request.userPrincipal.name)}"
+                              class="badge badge-light"></span>
+                    </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/messages/inbox">Inbox
                         </a>

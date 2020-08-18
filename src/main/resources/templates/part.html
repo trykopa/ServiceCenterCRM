@@ -2,11 +2,11 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/head :: headerfiles ('SC add part page')">
+<head th:replace="fragments/head :: headerfiles ('SC add part page')">
 </head>
 <body>
 <div class="container">
-    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
 
     <div class="alert alert-info p-1 mt-2" th:if="${error}">
         <h5 th:text="${error}"></h5>
@@ -62,7 +62,7 @@
         </div>
     </form>
 
-    <div th:replace="/fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 
 <!--Disable price and supplier input -->

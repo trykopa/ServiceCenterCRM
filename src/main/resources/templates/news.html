@@ -2,11 +2,11 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/head :: headerfiles ('SC News page')">
+<head th:replace="fragments/head :: headerfiles ('SC News page')">
 </head>
 <body>
 <div class="container">
-    <div th:replace="/fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
 
     <div class="alert alert-info p-1 mt-2" th:if="${message}">
         <h5 th:text="${message}"></h5>
@@ -16,13 +16,17 @@
             <div th:if="${newsPage != null}" class="mt-2">
                 <div th:each="news : ${newsPage}" class="card">
                     <div class="card-header">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-heading" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-                            <path fill-rule="evenodd" d="M3 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-heading" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path fill-rule="evenodd"
+                                  d="M3 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
                             <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-1z"/>
                         </svg>
                         <div class="float-sm-right" th:text="'   Date: ' + ${news.created.toLocaleString()} +
-                    ' Author: ' + ${news.author}">Data Author</div>
+                    ' Author: ' + ${news.author}">Data Author
+                        </div>
                     </div>
                     <div class="card-body">
                         <h6 class="card-title" th:text="${news.title}">Card title</h6>
@@ -31,13 +35,13 @@
                             <a th:href="@{/news/edit/{id} (id=${news.id})}"
                                class="btn btn-sm btn-outline-success">Edit news</a>
                             <a th:href="@{/news/delete/{id} (id=${news.id})}"
-                                class="btn btn-sm btn-outline-danger">Delete news</a>
+                               class="btn btn-sm btn-outline-danger">Delete news</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-           <!-- news pagination -->
+            <!-- news pagination -->
             <nav aria-label="Pagination" th:if="${newsPage.totalPages gt 0}">
                 <ul class="pagination justify-content-center font-weight-bold pagination-sm">
                     <li class="page-item" th:classappend="${newsPage.number eq 0} ? 'disabled'">
@@ -64,11 +68,11 @@
         </div>
         <div class="col-2">
             <form th:action="@{/news/new}" th:method="get">
-                <input  class="btn btn-primary btn-block" type="submit" value="Add news"/>
+                <input class="btn btn-primary btn-block" type="submit" value="Add news"/>
             </form>
         </div>
     </div>
-    <div th:replace="/fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>
