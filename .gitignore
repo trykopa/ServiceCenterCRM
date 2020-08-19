@@ -3,7 +3,10 @@ target/
 !**/src/main/**
 !**/src/test/**
 .mvn
-**/resources/application.properties
+
+### Sensitive Data ###
+src/main/resources/application.properties
+
 
 
 ### STS ###
@@ -20,7 +23,7 @@ target/
 *.iws
 *.iml
 *.ipr
-*.properties
+
 
 ### NetBeans ###
 /nbproject/private/
