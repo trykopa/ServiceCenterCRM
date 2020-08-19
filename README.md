@@ -17,6 +17,7 @@ I used the following technology stack:
 * AWS Java SDK
 * MapStruct
 * Thymeleaf
+* Bootstrap
 
 
 A working version of the project can be found at
